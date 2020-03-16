@@ -1,7 +1,7 @@
 package com.socmos.cursomc;
 
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.socmos.cursomc.domain.Categoria;
 import com.socmos.cursomc.domain.Cidade;
+import com.socmos.cursomc.domain.Cliente;
+import com.socmos.cursomc.domain.Endereco;
 import com.socmos.cursomc.domain.Estado;
 import com.socmos.cursomc.domain.Produto;
+import com.socmos.cursomc.domain.enues.TipoCliente;
 import com.socmos.cursomc.repositories.CategoriaRepository;
 import com.socmos.cursomc.repositories.CidadeRepository;
+import com.socmos.cursomc.repositories.ClienteRepository;
+import com.socmos.cursomc.repositories.EnderecoRepository;
 import com.socmos.cursomc.repositories.EstadoRepository;
 import com.socmos.cursomc.repositories.ProdutoRepository;
 
@@ -33,6 +38,10 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -70,6 +79,16 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		estadorepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2,c3));
+		
+		Cliente cli1 = new Cliente(null,"Maria Silva","mmsilvapa@gmail.com", "18795536272", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("32598523","981055209"));
+		Endereco e1 = new Endereco(null,"Timbo","1348","Apt 601","Pedreira","66000-000",cli1,c1);
+		Endereco e2 = new Endereco(null,"Humaitá","200","sala 23","Pedreira","66000-000",cli1,c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 		
 	}
 
